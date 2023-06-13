@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  geoserver:
+    image: geoserver-custom-2.22.2
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        GEOSERVER_WEBAPP_SRC: "https://sourceforge.net/projects/geoserver/files/GeoServer/2.22.2/geoserver-2.22.2-war.zip"
+    container_name: geoserver
+    ports:
+      - 8080:8080/tcp
+    environment:
+      - PLUGIN_DYNAMIC_URLS=https://sourceforge.net/projects/geoserver/files/GeoServer/2.22.2/extensions/geoserver-2.22.2-pyramid-plugin.zip https://sourceforge.net/projects/geoserver/files/GeoServer/2.22.2/extensions/geoserver-2.22.2-netcdf-plugin.zip
+      - INITIAL_MEMORY=1G
+      - MAXIMUM_MEMORY=2G
+    volumes:
+      - ./additional_fonts:/var/additional_fonts
+      - ./data-dir:/var/geoserver/datadir
